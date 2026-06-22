@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una Invitación Especial</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0d0d0d;
+            background-image: 
+                radial-gradient(circle, rgba(13,13,13,0.3) 0%, rgba(5,5,5,0.9) 100%),
+                linear-gradient(30deg, #151515 12%, transparent 12.5%, transparent 87%, #151515 87.5%, #151515),
+                linear-gradient(150deg, #151515 12%, transparent 12.5%, transparent 87%, #151515 87.5%, #151515),
+                linear-gradient(30deg, #151515 34%, transparent 34.5%, transparent 65%, #151515 65.5%, #151515),
+                linear-gradient(150deg, #151515 34%, transparent 34.5%, transparent 65%, #151515 65.5%, #151515),
+                linear-gradient(90deg, #1a1a1a 2%, transparent 2.5%, transparent 97.5%, #1a1a1a 98%, #1a1a1a);
+            background-size: 80px 140px;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .card {
+            text-align: center;
+            padding: 50px 40px;
+            background-color: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(5px);
+            border: 1px solid #d4af37;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(212, 175, 55, 0.1);
+            border-radius: 4px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            z-index: 5;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            pointer-events: none;
+            border-radius: 2px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 5px;
+            letter-spacing: 6px;
+            color: #d4af37;
+        }
+
+        .gold-divider {
+            height: 1px;
+            width: 80px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            margin: 20px auto;
+        }
+
+        .details {
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            color: #cccccc;
+            font-weight: 300;
+        }
+
+        .details strong {
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            height: 90px;
+            position: relative;
+        }
+
+        button {
+            padding: 12px 35px;
+            font-size: 0.85rem;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: transform 0.2s ease, font-size 0.2s ease;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #btn-si {
+            background-color: #d4af37;
+            color: #0d0d0d;
+            border: 1px solid #d4af37;
+            font-weight: 600;
+            z-index: 20;
+        }
+
+        #btn-si:hover {
+            background-color: transparent;
+            color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        #btn-no {
+            background-color: #161616;
+            color: #b3b3b3;
+            border: 1px solid #444444;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            opacity: 1 !important;
+            z-index: 15;
+            transition: left 0.12s ease-out, top 0.12s ease-out, transform 0.2s ease;
+        }
+
+        #form-hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Feliz Cumpleaños</h1>
+        <div class="gold-divider"></div>
+        
+        <div class="details">
+            <p>Tu cumpleaños es la ocasión perfecta para salir de la rutina y disfrutar de una excelente cena.</p>
+            <p>Quiero invitarte este fin de semana a celebrar tu día en <strong>L'eden Gastrobar</strong>.</p>
+            <p>Una noche reservada estrictamente para celebrar que existes, mirarte de frente sin prisas y dejar el afán de la semana atrás. Quiero que el mundo se detenga un rato mientras brindamos por tu vida.</p>
+            <div class="gold-divider" style="margin: 20px auto; width: 40px;"></div>
+            <p><strong>¿Me acompañas?</strong></p>
+        </div>
+
+        <div class="btn-container">
+            <button id="btn-si" onclick="aceptarInvitacion()">Sí, claro</button>
+            <button id="btn-no" onmouseover="moverBotonNo()" onclick="moverBotonNo(event)">No</button>
+        </div>
+    </div>
+
+    <form id="form-hidden" action="https://formspree.io/f/mbdvjkkb" method="POST">
+        <input type="text" name="respuesta" value="¡Confirmó la cena de cumpleaños en L'Eden!">
+    </form>
+
+    <script>
+        const btnSi = document.getElementById('btn-si');
+        const btnNo = document.getElementById('btn-no');
+        const formHidden = document.getElementById('form-hidden');
+        const card = document.querySelector('.card');
+
+        let clickCount = 0;
+        let siScale = 1;
+        let siFontSize = 0.85;
+        let noScale = 1;
+
+        const mensajes = [
+            "¿Segura? Piénsalo bien...",
+            "Es en L'Éden, no acepto un no.",
+            "Acuérdate de la comida deliciosa...",
+            "El botón de 'Sí' es la opción correcta.",
+            "Te guardo una sorpresa si cambias de opinión.",
+            "Ya casi no hay espacio para el No jaja",
+            "Anda, di que sí. 😉"
+        ];
+
+        function moverBotonNo(event) {
+            if (event) event.preventDefault();
+
+            btnNo.innerText = mensajes[clickCount % mensajes.length];
+            clickCount++;
+
+            siScale += 0.25; 
+            siFontSize += 0.08;
+            btnSi.style.transform = `scale(${siScale})`;
+            btnSi.style.fontSize = `${siFontSize}rem`;
+
+            if (noScale > 0.65) noScale -= 0.04;
+            btnNo.style.transform = `scale(${noScale})`;
+
+            // Cambiamos a position fixed para el teletransporte continuo
+            btnNo.style.position = 'fixed';
+
+            // Obtener las coordenadas exactas de la tarjeta negra en la pantalla
+            const rectCard = card.getBoundingClientRect();
+            const rectSi = btnSi.getBoundingClientRect();
+
+            // Límites estrictos basados ÚNICAMENTE en el tamaño de la tarjeta
+            const minX = rectCard.left + 30;
+            const maxX = rectCard.right - (btnNo.offsetWidth || 110) - 30;
+            const minY = rectCard.top + 30;
+            const maxY = rectCard.bottom - (btnNo.offsetHeight || 40) - 30;
+
+            // Zona prohibida (El botón SI)
+            const margenSeguridad = 40;
+            const siMinX = rectSi.left - margenSeguridad;
+            const siMaxX = rectSi.right + margenSeguridad;
+            const siMinY = rectSi.top - margenSeguridad;
+            const siMaxY = rectSi.bottom + margenSeguridad;
+
+            let x = 0, y = 0;
+            let posicionInvalida = true;
+            let intentos = 0;
+
+            const botonWidth = btnNo.offsetWidth || 110;
+            const botonHeight = btnNo.offsetHeight || 40;
+
+            while (posicionInvalida && intentos < 150) {
+                // Generar puntos aleatorios ÚNICAMENTE dentro de la tarjeta
+                x = Math.random() * (maxX - minX) + minX;
+                y = Math.random() * (maxY - minY) + minY;
+
+                const noMinX = x;
+                const noMaxX = x + botonWidth;
+                const noMinY = y;
+                const noMaxY = y + botonHeight;
+
+                const cruzaX = (noMaxX >= siMinX && noMinX <= siMaxX);
+                const cruzaY = (noMaxY >= siMinY && noMinY <= siMaxY);
+
+                // Si no choca con el botón SI, la posición es válida
+                if (!(cruzaX && cruzaY)) {
+                    posicionInvalida = false;
+                }
+                intentos++;
+            }
+
+            btnNo.style.left = `${x}px`;
+            btnNo.style.top = `${y}px`;
+        }
+
+        function aceptarInvitacion() {
+            document.querySelector('.card').innerHTML = `
+                <h1>Excelente</h1>
+                <div class="gold-divider"></div>
+                <div class="subtitle" style="color: #d4af37;">Cita Confirmada ✨</div>
+                <div class="details">
+                    <p>Brindaremos por tu cumpleaños como se debe.</p>
+                    <p>Nos vemos este fin de semana en <strong>L'eden Gastrobar</strong> para celebrar tu vida.</p>
+                </div>
+            `;
+
+            const url = formHidden.getAttribute('action');
+            const formData = new FormData(formHidden);
+
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            }).catch(err => console.error("Error:", err));
+        }
+    </script>
+
+</body>
+</html>
